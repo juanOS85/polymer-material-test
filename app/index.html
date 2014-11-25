@@ -6,6 +6,9 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="/favicon.ico">
+
+    <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
@@ -18,30 +21,39 @@
     <script src="bower_components/modernizr/modernizr.js"></script>
     <!-- endbuild -->
 
+    <!-- Critical CSS -->
+    <style>
+    </style>
+
+    <!-- HTML imports -->
     <link rel="import" href="../bower_components/font-roboto/roboto.html">
     <link rel="import" href="../bower_components/paper-elements/paper-elements.html">
+    <link rel="import" href="../bower_components/core-header-panel/core-header-panel.html">
+    <link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
   </head>
 
-  <body>
+  <!--
+  fullbleed: fit to viewport
+  layout: become a flex container
+  vertical/horizontal: orientation
+  -->
+  <body fullbleed layout vertical>
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-
-    <!-- <div class="hero-unit">
-      <h1>'Allo, 'Allo!</h1>
-      <p>You now have</p>
-      <ul>
-      <li>HTML5 Boilerplate</li>
-      <li>Sass</li>
-      <li>Modernizr</li>
-      </ul>
-    </div> -->
-    <paper-button raised>button</paper-button>
+    <!--
+    flex: control their own sizing
+    -->
+    <core-header-panel flex>
+      <core-toolbar>
+        <div>Hello World!</div>
+      </core-toolbar>
+    </core-header-panel>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <!-- <script src="bower_components/jquery/dist/jquery.js"></script> -->
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -55,8 +67,8 @@
       ga('create','UA-XXXXX-X');ga('send','pageview');
     </script>
 
-        <!-- build:js({app,.tmp}) scripts/main.js -->
-        <script src="scripts/main.js"></script>
-        <!-- endbuild -->
+    <!-- build:js({app,.tmp}) scripts/main.js -->
+    <script src="scripts/main.js"></script>
+    <!-- endbuild -->
 </body>
 </html>
