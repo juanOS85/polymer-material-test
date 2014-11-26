@@ -2,12 +2,16 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
-    <title>polymer material test</title>
+    <title>Polymer Material Test</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="/favicon.ico">
 
     <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+
+    <!-- Critical CSS -->
+    <style>
+    </style>
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
@@ -18,18 +22,17 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
     <!-- build:js scripts/vendor/modernizr.js -->
-    <script src="bower_components/modernizr/modernizr.js"></script>
+    <!-- <script src="bower_components/modernizr/modernizr.js"></script> -->
     <!-- endbuild -->
-
-    <!-- Critical CSS -->
-    <style>
-    </style>
 
     <!-- HTML imports -->
     <link rel="import" href="../bower_components/font-roboto/roboto.html">
-    <link rel="import" href="../bower_components/paper-elements/paper-elements.html">
-    <link rel="import" href="../bower_components/core-header-panel/core-header-panel.html">
+    <link rel="import" href="../bower_components/core-scaffold/core-scaffold.html">
     <link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
+    <link rel="import" href="../bower_components/core-menu/core-menu.html">
+    <link rel="import" href="../bower_components/core-animated-pages/core-animated-pages.html">
+    <link rel="import" href="../bower_components/core-animated-pages/transitions/slide-from-right.html">
+    <link rel="import" href="../bower_components/paper-item/paper-item.html">
   </head>
 
   <!--
@@ -37,23 +40,52 @@
   layout: become a flex container
   vertical/horizontal: orientation
   -->
-  <body fullbleed layout vertical>
+  <body unresolved fullbleed>
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <!--
-    flex: control their own sizing
-    -->
-    <core-header-panel flex>
-      <core-toolbar>
-        <div>Hello World!</div>
-      </core-toolbar>
-    </core-header-panel>
+
+    <template is="auto-binding">
+      <core-scaffold id="scaffold">
+        <nav>
+          <core-toolbar>
+            <span>Menu</span>
+          </core-toolbar>
+          <core-menu valueattr="hash" selected="{{route}}">
+            <template repeat="{{page in pages}}">
+              <paper-item noink>
+                <core-icon icon="label-outline"></core-icon>
+                <a href="#{{page.hash}}">{{page.name}}</a>
+              </paper-item>
+            </template>
+          </core-menu>
+        </nav>
+
+        <!-- flex makes the bar span across the top of the main content area -->
+        <core-toolbar tool flex>
+          <!-- flex spaces this element and jusifies the icons to the right-side -->
+          <div flex>App Name</div>
+          <core-icon-button icon="refresh"></core-icon-button>
+          <core-icon-button icon="add"></core-icon-button>
+        </core-toolbar>
+
+        <!-- fit: attribute instructs the main area to take up the full width and height of its parent -->
+        <!-- layout horizontal center-center centers that content horizontally and vertically using flexbox -->
+        <div layout horizontal center-center fit>
+          <core-animated-pages valueattr="hash" selected="{{route}}" transition="slide-from-right">
+            <template hash="{{page.hash}}" repeat="{{page in pages}}">
+              <section layout vertical center-center>
+                <div>{{page.name}}</div>
+              </section>
+            </template>
+          </core-animated-pages>
+        </div>
+      </core-scaffold>
+    </template>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
+    <!-- <script src="bower_components/jquery/dist/jquery.js"></script> -->
     <!-- endbower -->
     <!-- endbuild -->
 
