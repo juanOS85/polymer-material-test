@@ -26,13 +26,15 @@
     <!-- endbuild -->
 
     <!-- HTML imports -->
-    <link rel="import" href="../bower_components/font-roboto/roboto.html">
+    <link rel="import" href="../bower_components/core-header-panel/core-header-panel.html">
+    <link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
+    <!-- <link rel="import" href="../bower_components/font-roboto/roboto.html">
     <link rel="import" href="../bower_components/core-scaffold/core-scaffold.html">
     <link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
     <link rel="import" href="../bower_components/core-menu/core-menu.html">
     <link rel="import" href="../bower_components/core-animated-pages/core-animated-pages.html">
     <link rel="import" href="../bower_components/core-animated-pages/transitions/slide-from-right.html">
-    <link rel="import" href="../bower_components/paper-item/paper-item.html">
+    <link rel="import" href="../bower_components/paper-item/paper-item.html"> -->
   </head>
 
   <!--
@@ -40,13 +42,13 @@
   layout: become a flex container
   vertical/horizontal: orientation
   -->
-  <body unresolved fullbleed>
+  <body layout vertical>
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <template is="auto-binding">
-      <core-scaffold id="scaffold">
+    <!-- <template is="auto-binding"> -->
+      <!-- <core-scaffold id="scaffold">
         <nav>
           <core-toolbar>
             <span>Menu</span>
@@ -59,19 +61,19 @@
               </paper-item>
             </template>
           </core-menu>
-        </nav>
+        </nav> -->
 
         <!-- flex makes the bar span across the top of the main content area -->
-        <core-toolbar tool flex>
+        <!-- <core-toolbar tool flex> -->
           <!-- flex spaces this element and jusifies the icons to the right-side -->
-          <div flex>App Name</div>
+          <!-- <div flex>App Name</div>
           <core-icon-button icon="refresh"></core-icon-button>
           <core-icon-button icon="add"></core-icon-button>
-        </core-toolbar>
+        </core-toolbar> -->
 
         <!-- fit: attribute instructs the main area to take up the full width and height of its parent -->
         <!-- layout horizontal center-center centers that content horizontally and vertically using flexbox -->
-        <div layout horizontal center-center fit>
+        <!-- <div layout horizontal center-center fit>
           <core-animated-pages valueattr="hash" selected="{{route}}" transition="slide-from-right">
             <template hash="{{page.hash}}" repeat="{{page in pages}}">
               <section layout vertical center-center>
@@ -79,9 +81,15 @@
               </section>
             </template>
           </core-animated-pages>
-        </div>
-      </core-scaffold>
-    </template>
+        </div> -->
+      <!-- </core-scaffold> -->
+    <!-- </template> -->
+
+    <core-header-panel flex>
+      <core-toolbar>
+        <div>Hello World!</div>
+      </core-toolbar>
+    </core-header-panel>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
