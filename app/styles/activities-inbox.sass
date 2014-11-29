@@ -23,13 +23,23 @@ core-toolbar
 
   .item
     padding: 8px 24px
-    font-size: 16px
+    font-size: 14px
+
+    &.deny div
+      text-decoration: line-through
 
     > div
       padding: 11px 0 0 20px
 
+      &:first-child
+        padding-left: 0
+
     paper-icon-button
-      margin-left: 10px
+      margin-left: 8px
 
       &.red
         color: #F44336
+      &.green
+        color: #4CAF50
+      &.light-gray
+        color: #B0BEC5

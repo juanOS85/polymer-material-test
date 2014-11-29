@@ -1,22 +1,18 @@
 <!-- HTML imports -->
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
 <link rel="import" href="../bower_components/core-icons/core-icons.html">
 <link rel="import" href="../bower_components/core-header-panel/core-header-panel.html">
 <link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
 <link rel="import" href="../bower_components/core-media-query/core-media-query.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<!-- <link rel="import" href="../bower_components/font-roboto/roboto.html">
-<link rel="import" href="../bower_components/core-scaffold/core-scaffold.html">
-<link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
-<link rel="import" href="../bower_components/core-menu/core-menu.html">
-<link rel="import" href="../bower_components/core-animated-pages/core-animated-pages.html">
-<link rel="import" href="../bower_components/core-animated-pages/transitions/slide-from-right.html">
-<link rel="import" href="../bower_components/paper-item/paper-item.html"> -->
 
+<!-- Component declaration -->
 <polymer-element name="activities-inbox">
   <template>
     <link rel="stylesheet" href="styles/activities-inbox.css">
+
+    <core-ajax auto url="/api/inbox.json" handleAs="json" on-core-response="{{handleActivitiesList}}"></core-ajax>
 
     <!-- <template is="auto-binding"> -->
       <!-- <core-scaffold id="scaffold">
@@ -66,41 +62,18 @@
               <core-toolbar>
                 <div>Activities Inbox</div>
               </core-toolbar>
-              <div class="item" layout horizontal>
-                <paper-checkbox for></paper-checkbox>
-                <div flex>Andres Iniesta</div>
-                <div flex>Vacations Approval</div>
-                <div>11 days</div>
-                <paper-icon-button class="red" icon="cancel"></paper-icon-button>
-              </div>
-              <div class="item" layout horizontal>
-                <paper-checkbox for></paper-checkbox>
-                <div flex>Xavi Hernandez</div>
-                <div flex>Vacations Approval</div>
-                <div>1 days</div>
-                <paper-icon-button class="red" icon="cancel"></paper-icon-button>
-              </div>
-              <div class="item" layout horizontal>
-                <paper-checkbox for></paper-checkbox>
-                <div flex>Sergio Busquets</div>
-                <div flex>Vacations Approval</div>
-                <div>3 days</div>
-                <paper-icon-button class="red" icon="cancel"></paper-icon-button>
-              </div>
-              <div class="item" layout horizontal>
-                <paper-checkbox for></paper-checkbox>
-                <div flex>Carles Puyol</div>
-                <div flex>Vacations Approval</div>
-                <div>4 days</div>
-                <paper-icon-button class="red" icon="cancel"></paper-icon-button>
-              </div>
-              <div class="item" layout horizontal>
-                <paper-checkbox for></paper-checkbox>
-                <div flex>Francesc Fabregas</div>
-                <div flex>Vacations Approval</div>
-                <div>10 days</div>
-                <paper-icon-button class="red" icon="cancel"></paper-icon-button>
-              </div>
+                <template repeat="{{activity in activities}}">
+                  <div class="item" layout horizontal>
+                    <div flex>{{activity.employee}}</div>
+                    <div flex>{{activity.process}} {{activity.activity}}</div>
+                    <!-- <div flex>{{activity.requestDate}}</div> -->
+                    <div>{{activity.length}}</div>
+                    <paper-icon-button class="approved" icon="assignment-returned"></paper-icon-button>
+                    <paper-icon-button on-click={{approveActiviyRequest}} class="green" icon="check"></paper-icon-button>
+                    <paper-icon-button on-click={{denyActiviyRequest}} class="red" icon="close"></paper-icon-button>
+                    <paper-icon-button class="light-gray" icon="arrow-forward"></paper-icon-button>
+                  </div>
+                </template>
             </div>
           </div>
         </section>
@@ -110,8 +83,11 @@
 
   <script>
     (function(d, w) {
+      'use strict';
+
       var list;
 
+      // core-media-change event hanlder
       d.addEventListener('core-media-change', function(e) {
         if (e.detail.matches) {
           list.classList.remove('wide');
@@ -123,8 +99,48 @@
       // A *MUST-HAVE* declartion to create a Polymer element
       Polymer('activities-inbox', {
         query: 'min-width: 800px',
+
         ready: function() {
           list = this.$.list;
+        },
+
+        handleActivitiesList: function(response, xhr) {
+          let rawActivitiesList = xhr.response;
+
+          this.activities = [].map.call(rawActivitiesList, function(rawActivity) {
+            let diffMiliseconds =
+              Math.abs(new Date(rawActivity.endDate) - new Date(rawActivity.beginDate)),
+                diffDays = diffMiliseconds / (1000 * 60 * 60 * 24),
+                requestDate = new Date(rawActivity.requestDate),
+                requestMonth = requestDate.toLocaleString('en-us', { month: 'short' }),
+                requestDateFormatted =
+                  requestMonth + ' ' + requestDate.getUTCDate() + ', ' + requestDate.getFullYear();
+
+            return {
+              id: rawActivity.processId,
+              employee: rawActivity.employee,
+              process: rawActivity.process,
+              activity: rawActivity.activity,
+              requestDate: requestDateFormatted,
+              length: diffDays
+            };
+          });
+        },
+
+        approveActiviyRequest: function(e) {
+          var t = e.target,
+              p = t.parentNode;
+        },
+
+        denyActiviyRequest: function(e) {
+          var t = e.target,
+              p = t.parentNode;
+
+          p;
+
+          p.classList.add('deny')
+          p.querySelector('.approved')
+          p.setAttribute('icon', 'assignment-turned-in');
         }
       });
     })(document, window);
