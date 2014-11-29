@@ -9,10 +9,6 @@
 
     <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
 
-    <!-- Critical CSS -->
-    <style>
-    </style>
-
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
@@ -25,16 +21,7 @@
     <!-- <script src="bower_components/modernizr/modernizr.js"></script> -->
     <!-- endbuild -->
 
-    <!-- HTML imports -->
-    <link rel="import" href="../bower_components/core-header-panel/core-header-panel.html">
-    <link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
-    <!-- <link rel="import" href="../bower_components/font-roboto/roboto.html">
-    <link rel="import" href="../bower_components/core-scaffold/core-scaffold.html">
-    <link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
-    <link rel="import" href="../bower_components/core-menu/core-menu.html">
-    <link rel="import" href="../bower_components/core-animated-pages/core-animated-pages.html">
-    <link rel="import" href="../bower_components/core-animated-pages/transitions/slide-from-right.html">
-    <link rel="import" href="../bower_components/paper-item/paper-item.html"> -->
+    <link rel="import" href="activities-inbox.html">
   </head>
 
   <!--
@@ -47,65 +34,25 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- <template is="auto-binding"> -->
-      <!-- <core-scaffold id="scaffold">
-        <nav>
-          <core-toolbar>
-            <span>Menu</span>
-          </core-toolbar>
-          <core-menu valueattr="hash" selected="{{route}}">
-            <template repeat="{{page in pages}}">
-              <paper-item noink>
-                <core-icon icon="label-outline"></core-icon>
-                <a href="#{{page.hash}}">{{page.name}}</a>
-              </paper-item>
-            </template>
-          </core-menu>
-        </nav> -->
-
-        <!-- flex makes the bar span across the top of the main content area -->
-        <!-- <core-toolbar tool flex> -->
-          <!-- flex spaces this element and jusifies the icons to the right-side -->
-          <!-- <div flex>App Name</div>
-          <core-icon-button icon="refresh"></core-icon-button>
-          <core-icon-button icon="add"></core-icon-button>
-        </core-toolbar> -->
-
-        <!-- fit: attribute instructs the main area to take up the full width and height of its parent -->
-        <!-- layout horizontal center-center centers that content horizontally and vertically using flexbox -->
-        <!-- <div layout horizontal center-center fit>
-          <core-animated-pages valueattr="hash" selected="{{route}}" transition="slide-from-right">
-            <template hash="{{page.hash}}" repeat="{{page in pages}}">
-              <section layout vertical center-center>
-                <div>{{page.name}}</div>
-              </section>
-            </template>
-          </core-animated-pages>
-        </div> -->
-      <!-- </core-scaffold> -->
-    <!-- </template> -->
-
-    <core-header-panel flex>
-      <core-toolbar>
-        <div>Hello World!</div>
-      </core-toolbar>
-    </core-header-panel>
+    <activities-inbox></activities-inbox>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
-    <!-- <script src="bower_components/jquery/dist/jquery.js"></script> -->
+    <!-- <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+    <script src="bower_components/polymer/polymer.js"></script> -->
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
+    <!-- <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
       function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
       e=o.createElement(i);r=o.getElementsByTagName(i)[0];
       e.src='//www.google-analytics.com/analytics.js';
       r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
       ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script>
+    </script> -->
 
     <!-- build:js({app,.tmp}) scripts/main.js -->
     <script src="scripts/main.js"></script>

@@ -7,4 +7,4 @@
   //   {name: 'page', hash: 'two'},
   //   {name: 'app', hash: 'three'},
   // ];
-}(window, document));
+})(window, document);

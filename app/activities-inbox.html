@@ -1,0 +1,132 @@
+<!-- HTML imports -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../bower_components/core-header-panel/core-header-panel.html">
+<link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="../bower_components/core-media-query/core-media-query.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<!-- <link rel="import" href="../bower_components/font-roboto/roboto.html">
+<link rel="import" href="../bower_components/core-scaffold/core-scaffold.html">
+<link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="../bower_components/core-menu/core-menu.html">
+<link rel="import" href="../bower_components/core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../bower_components/core-animated-pages/transitions/slide-from-right.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html"> -->
+
+<polymer-element name="activities-inbox">
+  <template>
+    <link rel="stylesheet" href="styles/activities-inbox.css">
+
+    <!-- <template is="auto-binding"> -->
+      <!-- <core-scaffold id="scaffold">
+        <nav>
+          <core-toolbar>
+            <span>Menu</span>
+          </core-toolbar>
+          <core-menu valueattr="hash" selected="{{route}}">
+            <template repeat="{{page in pages}}">
+              <paper-item noink>
+                <core-icon icon="label-outline"></core-icon>
+                <a href="#{{page.hash}}">{{page.name}}</a>
+              </paper-item>
+            </template>
+          </core-menu>
+        </nav> -->
+
+        <!-- flex makes the bar span across the top of the main content area -->
+        <!-- <core-toolbar tool flex> -->
+          <!-- flex spaces this element and jusifies the icons to the right-side -->
+          <!-- <div flex>App Name</div>
+          <core-icon-button icon="refresh"></core-icon-button>
+          <core-icon-button icon="add"></core-icon-button>
+        </core-toolbar> -->
+
+        <!-- fit: attribute instructs the main area to take up the full width and height of its parent -->
+        <!-- layout horizontal center-center centers that content horizontally and vertically using flexbox -->
+        <!-- <div layout horizontal center-center fit>
+          <core-animated-pages valueattr="hash" selected="{{route}}" transition="slide-from-right">
+            <template hash="{{page.hash}}" repeat="{{page in pages}}">
+              <section layout vertical center-center>
+                <div>{{page.name}}</div>
+              </section>
+            </template>
+          </core-animated-pages>
+        </div> -->
+      <!-- </core-scaffold> -->
+    <!-- </template> -->
+
+    <core-header-panel flex>
+      <core-animated-pages>
+        <section>
+          <core-media-query query="{{query}}" queryMatches="{{qMatches}}"></core-media-query>
+
+          <div layout vertical center>
+            <div id="list" layout vertical>
+              <core-toolbar>
+                <div>Activities Inbox</div>
+              </core-toolbar>
+              <div class="item" layout horizontal>
+                <paper-checkbox for></paper-checkbox>
+                <div flex>Andres Iniesta</div>
+                <div flex>Vacations Approval</div>
+                <div>11 days</div>
+                <paper-icon-button class="red" icon="cancel"></paper-icon-button>
+              </div>
+              <div class="item" layout horizontal>
+                <paper-checkbox for></paper-checkbox>
+                <div flex>Xavi Hernandez</div>
+                <div flex>Vacations Approval</div>
+                <div>1 days</div>
+                <paper-icon-button class="red" icon="cancel"></paper-icon-button>
+              </div>
+              <div class="item" layout horizontal>
+                <paper-checkbox for></paper-checkbox>
+                <div flex>Sergio Busquets</div>
+                <div flex>Vacations Approval</div>
+                <div>3 days</div>
+                <paper-icon-button class="red" icon="cancel"></paper-icon-button>
+              </div>
+              <div class="item" layout horizontal>
+                <paper-checkbox for></paper-checkbox>
+                <div flex>Carles Puyol</div>
+                <div flex>Vacations Approval</div>
+                <div>4 days</div>
+                <paper-icon-button class="red" icon="cancel"></paper-icon-button>
+              </div>
+              <div class="item" layout horizontal>
+                <paper-checkbox for></paper-checkbox>
+                <div flex>Francesc Fabregas</div>
+                <div flex>Vacations Approval</div>
+                <div>10 days</div>
+                <paper-icon-button class="red" icon="cancel"></paper-icon-button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </core-animated-pages>
+    </core-header-panel>
+  </template>
+
+  <script>
+    (function(d, w) {
+      var list;
+
+      d.addEventListener('core-media-change', function(e) {
+        if (e.detail.matches) {
+          list.classList.remove('wide');
+        } else {
+          list.classList.add('wide');
+        }
+      });
+
+      // A *MUST-HAVE* declartion to create a Polymer element
+      Polymer('activities-inbox', {
+        query: 'min-width: 800px',
+        ready: function() {
+          list = this.$.list;
+        }
+      });
+    })(document, window);
+  </script>
+</polymer-element>
