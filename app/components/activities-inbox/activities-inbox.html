@@ -1,4 +1,6 @@
 <!-- HTML imports -->
+<link rel="import" href="../../../bower_components/core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../../../bower_components/core-animated-pages/transitions/slide-from-right.html">
 <link rel="import" href="../../../bower_components/core-ajax/core-ajax.html">
 <link rel="import" href="../../../bower_components/core-icons/core-icons.html">
 <link rel="import" href="../../../bower_components/core-header-panel/core-header-panel.html">
@@ -14,69 +16,45 @@
 
     <core-ajax auto url="/api/inbox.json" handleAs="json" on-core-response="{{handleActivitiesList}}"></core-ajax>
 
-    <!-- <template is="auto-binding"> -->
-      <!-- <core-scaffold id="scaffold">
-        <nav>
-          <core-toolbar>
-            <span>Menu</span>
-          </core-toolbar>
-          <core-menu valueattr="hash" selected="{{route}}">
-            <template repeat="{{page in pages}}">
-              <paper-item noink>
-                <core-icon icon="label-outline"></core-icon>
-                <a href="#{{page.hash}}">{{page.name}}</a>
-              </paper-item>
-            </template>
-          </core-menu>
-        </nav> -->
-
-        <!-- flex makes the bar span across the top of the main content area -->
-        <!-- <core-toolbar tool flex> -->
-          <!-- flex spaces this element and jusifies the icons to the right-side -->
-          <!-- <div flex>App Name</div>
-          <core-icon-button icon="refresh"></core-icon-button>
-          <core-icon-button icon="add"></core-icon-button>
-        </core-toolbar> -->
-
-        <!-- fit: attribute instructs the main area to take up the full width and height of its parent -->
-        <!-- layout horizontal center-center centers that content horizontally and vertically using flexbox -->
-        <!-- <div layout horizontal center-center fit>
-          <core-animated-pages valueattr="hash" selected="{{route}}" transition="slide-from-right">
-            <template hash="{{page.hash}}" repeat="{{page in pages}}">
-              <section layout vertical center-center>
-                <div>{{page.name}}</div>
-              </section>
-            </template>
-          </core-animated-pages>
-        </div> -->
-      <!-- </core-scaffold> -->
-    <!-- </template> -->
-
     <core-header-panel flex>
-      <core-animated-pages>
+      <core-animated-pages selected="{{hash}}" transition="slide-from-right">
+        <!-- Activities list -->
         <section>
-          <core-media-query query="{{query}}" queryMatches="{{qMatches}}"></core-media-query>
+          <core-media-query query="{{query}}" queryMatches="{{qMatches}}" on-core-media-change="{{test}}"></core-media-query>
 
           <div layout vertical center>
             <div id="list" layout vertical>
               <core-toolbar>
                 <div>Activities Inbox</div>
               </core-toolbar>
-                <template repeat="{{activity in activities}}">
-                  <div class="item" layout horizontal>
-                    <div flex>{{activity.employee}}</div>
-                    <div flex>{{activity.process}} {{activity.activity}}</div>
-                    <!-- <div flex>{{activity.requestDate}}</div> -->
-                    <div>{{activity.length}}</div>
-                    <paper-icon-button class="approved" icon="assignment-returned"></paper-icon-button>
-                    <paper-icon-button on-click={{approveActiviyRequest}} class="green" icon="check"></paper-icon-button>
-                    <paper-icon-button on-click={{denyActiviyRequest}} class="red" icon="close"></paper-icon-button>
+              <template repeat="{{activity in activities}}">
+                <div class="item" layout horizontal on-tap="{{transition}}">
+                  <div flex>{{activity.employee}}</div>
+                  <div flex>{{activity.process}} {{activity.activity}}</div>
+                  <!-- <div flex>{{activity.requestDate}}</div> -->
+                  <div>{{activity.length}}</div>
+                  <paper-icon-button class="approved" icon="assignment-returned"></paper-icon-button>
+                  <paper-icon-button on-click={{approveActiviyRequest}} class="green" icon="check"></paper-icon-button>
+                  <paper-icon-button on-click={{denyActiviyRequest}} class="red" icon="close"></paper-icon-button>
+                  <!-- <a href="#{{activity.id}}">
                     <paper-icon-button class="light-gray" icon="arrow-forward"></paper-icon-button>
-                  </div>
-                </template>
+                  </a> -->
+                </div>
+              </template>
             </div>
           </div>
         </section>
+
+        <!-- Activity detail -->
+        <template hash="{{activity.hash}}" repeat="{{activity in activities}}">
+          <section>
+            <div layout vertical center>
+              <core-toolbar>
+                <div>{{activity.employee}}</div>
+              </core-toolbar>
+            </div>
+          </section>
+        </template>
       </core-animated-pages>
     </core-header-panel>
   </template>
@@ -85,24 +63,9 @@
     (function(d, w) {
       'use strict';
 
-      var list;
-
-      // core-media-change event hanlder
-      d.addEventListener('core-media-change', function(e) {
-        if (e.detail.matches) {
-          list.classList.remove('wide');
-        } else {
-          list.classList.add('wide');
-        }
-      });
-
       // A *MUST-HAVE* declartion to create a Polymer element
       Polymer('activities-inbox', {
         query: 'min-width: 800px',
-
-        ready: function() {
-          list = this.$.list;
-        },
 
         handleActivitiesList: function(response, xhr) {
           let rawActivitiesList = xhr.response;
@@ -117,7 +80,7 @@
                   requestMonth + ' ' + requestDate.getUTCDate() + ', ' + requestDate.getFullYear();
 
             return {
-              id: rawActivity.processId,
+              hash: rawActivity.activityId,
               employee: rawActivity.employee,
               process: rawActivity.process,
               activity: rawActivity.activity,
@@ -125,6 +88,18 @@
               length: diffDays
             };
           });
+        },
+
+        transition: function(e) {
+          this.hash = e.target.templateInstance.model.activity.hash;
+        },
+
+        test: function() {
+          if (e.detail.matches) {
+            this.$.list.classList.remove('wide');
+          } else {
+            this.$.list.classList.add('wide');
+          }
         },
 
         approveActiviyRequest: function(e) {
@@ -135,12 +110,6 @@
         denyActiviyRequest: function(e) {
           var t = e.target,
               p = t.parentNode;
-
-          p;
-
-          p.classList.add('deny')
-          p.querySelector('.approved')
-          p.setAttribute('icon', 'assignment-turned-in');
         }
       });
     })(document, window);
