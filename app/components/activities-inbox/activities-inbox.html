@@ -17,13 +17,13 @@
     <core-ajax auto url="/api/inbox.json" handleAs="json" on-core-response="{{handleActivitiesList}}"></core-ajax>
 
     <core-header-panel flex>
-      <core-animated-pages selected="{{hash}}" transition="slide-from-right">
+      <core-animated-pages selected="{{hash}}" transitions="slide-from-right">
         <!-- Activities list -->
         <section>
-          <core-media-query query="{{query}}" queryMatches="{{qMatches}}" on-core-media-change="{{test}}"></core-media-query>
+          <core-media-query query="{{query}}" queryMatches="{{qMatches}}" on-core-media-change="{{mediaChangeHandler}}"></core-media-query>
 
           <div layout vertical center>
-            <div id="list" layout vertical>
+            <div id="list" class="dafult-container" layout vertical>
               <core-toolbar>
                 <div>Activities Inbox</div>
               </core-toolbar>
@@ -37,7 +37,7 @@
                   <paper-icon-button on-click={{approveActiviyRequest}} class="green" icon="check"></paper-icon-button>
                   <paper-icon-button on-click={{denyActiviyRequest}} class="red" icon="close"></paper-icon-button>
                   <!-- <a href="#{{activity.id}}">
-                    <paper-icon-button class="light-gray" icon="arrow-forward"></paper-icon-button>
+                    <paper-icon-button class="light-gray" icon="arrow-back"></paper-icon-button>
                   </a> -->
                 </div>
               </template>
@@ -49,9 +49,14 @@
         <template hash="{{activity.hash}}" repeat="{{activity in activities}}">
           <section>
             <div layout vertical center>
-              <core-toolbar>
-                <div>{{activity.employee}}</div>
-              </core-toolbar>
+              <div class="dafult-container" layout vertical>
+                <core-toolbar>
+                  <paper-icon-button class="white" icon="arrow-back"></paper-icon-button>
+                  <div>{{activity.process}} {{activity.activity}} for {{activity.employee}}</div>
+                </core-toolbar>
+                <div class="item" layout horizontal>
+                </div>
+              </div>
             </div>
           </section>
         </template>
@@ -94,7 +99,7 @@
           this.hash = e.target.templateInstance.model.activity.hash;
         },
 
-        test: function() {
+        mediaChangeHandler: function(e) {
           if (e.detail.matches) {
             this.$.list.classList.remove('wide');
           } else {
